@@ -1,11 +1,25 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import {IFeedItem} from './FeedItem.types';
+import {styles} from './FeedItem.styles';
 
 const FeedItem = ({product}: IFeedItem) => {
-  const {title} = product;
+  const {title, description, thumbnail} = product;
 
-  return <Text>{title}</Text>;
+  return (
+    <View style={styles.container}>
+      <Image
+        style={styles.image}
+        source={{uri: thumbnail}}
+        height={128}
+        width={128}
+      />
+
+      <Text style={styles.title}>{title}</Text>
+
+      <Text style={styles.description}>{description}</Text>
+    </View>
+  );
 };
 
 export {FeedItem};
