@@ -1,5 +1,7 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 type DetailsScreenParams = {
-  id: string;
+  id: number;
 };
 
 type RootStackParamList = {
@@ -7,10 +9,13 @@ type RootStackParamList = {
   Details: DetailsScreenParams;
 };
 
+type RootStackScreenProps<T extends keyof RootStackParamList> =
+  NativeStackScreenProps<RootStackParamList, T>;
+
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {}
   }
 }
 
-export type {DetailsScreenParams, RootStackParamList};
+export type {RootStackParamList, RootStackScreenProps};

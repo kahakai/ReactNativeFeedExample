@@ -1,13 +1,22 @@
-import React from 'react';
-import {Image, Text, View} from 'react-native';
+import React, {useCallback} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {IFeedItem} from './FeedItem.types';
 import {styles} from './FeedItem.styles';
+import {useNavigation} from '@react-navigation/native';
 
 const FeedItem = ({product}: IFeedItem) => {
-  const {title, description, thumbnail} = product;
+  const {id, title, description, thumbnail} = product;
+
+  const navigation = useNavigation();
+
+  const onPress = useCallback(() => {
+    navigation.navigate('Details', {
+      id: id,
+    });
+  }, [id, navigation]);
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image
         style={styles.image}
         source={{uri: thumbnail}}
@@ -18,7 +27,7 @@ const FeedItem = ({product}: IFeedItem) => {
       <Text style={styles.title}>{title}</Text>
 
       <Text style={styles.description}>{description}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
