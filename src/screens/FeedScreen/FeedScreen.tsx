@@ -1,10 +1,10 @@
 import React from 'react';
 import {FlatList, ListRenderItem} from 'react-native';
 import {styles} from './FeedScreen.styles';
-import productsJSON from '../../models/stubs/products.json';
 import {Product} from '../../models/Product';
 import {FeedItem} from './FeedItem/FeedItem';
 import {Separator} from './Separator/Separator';
+import {useProducts} from '../../models/hooks/useProducts';
 
 const renderItem: ListRenderItem<Product> = ({item}) => {
   return <FeedItem product={item} />;
@@ -15,11 +15,13 @@ const renderItemSeparator = (): React.ReactElement => {
 };
 
 const FeedScreen = () => {
+  const products = useProducts();
+
   return (
     <FlatList
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
-      data={productsJSON.products}
+      data={products}
       renderItem={renderItem}
       ItemSeparatorComponent={renderItemSeparator}
     />

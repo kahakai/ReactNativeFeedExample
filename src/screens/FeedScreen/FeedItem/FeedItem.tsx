@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity} from 'react-native';
 import {IFeedItem} from './FeedItem.types';
 import {styles} from './FeedItem.styles';
 import {useNavigation} from '@react-navigation/native';
