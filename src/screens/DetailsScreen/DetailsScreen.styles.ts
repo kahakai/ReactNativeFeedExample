@@ -10,6 +10,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   image: {
+    height: 256,
+    width: 256,
     alignSelf: 'center',
     borderRadius: 16,
   },
