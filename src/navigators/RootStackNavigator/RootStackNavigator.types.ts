@@ -7,4 +7,10 @@ type RootStackParamList = {
   Details: DetailsScreenParams;
 };
 
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
+
 export type {DetailsScreenParams, RootStackParamList};
