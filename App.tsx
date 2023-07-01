@@ -1,15 +1,18 @@
 import React from 'react';
 
-import {FeedScreen} from './src/screens/FeedScreen/FeedScreen';
-import {RootScreen} from './src/screens/RootScreen/RootScreen';
 import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import {FeedScreen} from './src/screens/FeedScreen/FeedScreen';
+
+const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   return (
     <NavigationContainer>
-      <RootScreen>
-        <FeedScreen />
-      </RootScreen>
+      <Stack.Navigator>
+        <Stack.Screen name="Feed" component={FeedScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
