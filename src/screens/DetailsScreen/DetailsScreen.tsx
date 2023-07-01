@@ -3,21 +3,12 @@ import {Image, Text, View} from 'react-native';
 import {styles} from './DetailsScreen.styles';
 import {DetailsScreenProps, IDetailsScreen} from './DetailsScreen.types';
 import {useProduct} from '../../models/hooks/useProduct';
-import {ProgressBar} from './ProgressBar/ProgressBar';
 import {useProductDetails} from './hooks/useProductDetails';
+import {PricesBlock} from './PriceBlock/PricesBlock';
 
 const DetailsScreenSafe = ({product}: IDetailsScreen) => {
-  const {
-    title,
-    description,
-    fullPrice,
-    discount,
-    finalPrice,
-    thumbnailURL,
-    fullPriceProgress,
-    discountProgress,
-    finalPriceProgress,
-  } = useProductDetails(product!);
+  const {title, description, price, discountPercentage, thumbnailURL} =
+    useProductDetails(product);
 
   return (
     <View style={styles.container}>
@@ -29,17 +20,11 @@ const DetailsScreenSafe = ({product}: IDetailsScreen) => {
         <Text style={styles.description}>{description}</Text>
       </View>
 
-      <Text>{fullPrice}</Text>
-
-      <ProgressBar progress={fullPriceProgress} />
-
-      <Text>{discount}</Text>
-
-      <ProgressBar progress={discountProgress} />
-
-      <Text>{finalPrice}</Text>
-
-      <ProgressBar progress={finalPriceProgress} />
+      <PricesBlock
+        style={styles.prices}
+        price={price}
+        discountPercentage={discountPercentage}
+      />
     </View>
   );
 };
