@@ -1,23 +1,32 @@
 import {Product} from '../../../../models/Product';
-import {useProducts} from '../../../../models/hooks/useProducts';
+import {useProductsStub} from '../../../../models/hooks/useProductsStub';
+import {removeElementAt, shuffle} from '../../../../utils/array';
 import {random} from '../../../../utils/random';
 
+const getSomeShuffledProducts = (products: Product[]): Product[] => {
+  return shuffle(products).slice(0, random(5, 10));
+};
+
 const useRelatedProducts = (productID: number): Product[] => {
-  const allProducts = useProducts();
+  const allProducts = useProductsStub();
 
-  const remainingProducts = allProducts.filter(product => {
-    return product.id !== productID;
+  const productIndex = allProducts.findIndex(product => {
+    return product.id === productID;
   });
 
-  // Not truly random, better use Fisher-Yates algorithm or its optimized version Durstenfeld shuffle.
-  const shuffledRemainingProducts = [...remainingProducts].sort(() => {
-    return 0.5 - Math.random();
+  if (productIndex === -1) {
+    return getSomeShuffledProducts(allProducts);
+  }
+
+  const productCategory = allProducts[productIndex].category;
+
+  const remainingProducts = removeElementAt(allProducts, productIndex);
+
+  const remainingProductsSameCategory = remainingProducts.filter(product => {
+    return product.category === productCategory;
   });
 
-  const count = random(5, 10);
-  const relatedProducts = shuffledRemainingProducts.slice(0, count);
-
-  return relatedProducts;
+  return getSomeShuffledProducts(remainingProductsSameCategory);
 };
 
 export {useRelatedProducts};

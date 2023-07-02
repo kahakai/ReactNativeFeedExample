@@ -1,6 +1,6 @@
-import {useFetch} from '../../network/hooks/useFetch';
-import {GetProductsResponse} from '../../network/models/products/Products.types';
-import {Product} from '../Product';
+import {Product} from '../../../models/Product';
+import {useFetch} from '../../../network/hooks/useFetch';
+import {GetProductsResponse} from '../../../network/models/products/Products.types';
 
 interface ProductsState {
   products?: Product[];

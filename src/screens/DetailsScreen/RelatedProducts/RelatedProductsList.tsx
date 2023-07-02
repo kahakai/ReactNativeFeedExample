@@ -21,7 +21,8 @@ const RelatedProductsList = ({style, productID}: IRelatedProductsList) => {
   return (
     <FlatList
       style={style}
-      horizontal
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
       data={products}
       renderItem={renderItem}
       ItemSeparatorComponent={renderItemSeparator}

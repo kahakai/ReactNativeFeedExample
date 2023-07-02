@@ -2,7 +2,7 @@ import React from 'react';
 import {FlatList, ListRenderItem} from 'react-native';
 
 import {Product} from '../../models/Product';
-import {useProducts} from '../../models/hooks/useProducts';
+import {useProducts} from './hooks/useProducts';
 import {styles} from './FeedScreen.styles';
 import {FeedItem} from './FeedItem/FeedItem';
 import {Separator} from './Separator/Separator';
