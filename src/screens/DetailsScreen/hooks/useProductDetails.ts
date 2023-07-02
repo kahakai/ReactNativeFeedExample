@@ -1,6 +1,7 @@
 import {Product} from '../../../models/Product';
 
 interface ProductDetails {
+  id: number;
   title: string;
   description: string;
   price: number;
@@ -9,9 +10,11 @@ interface ProductDetails {
 }
 
 const useProductDetails = (product: Product): ProductDetails => {
-  const {title, description, price, discountPercentage, thumbnail} = product;
+  const {id, title, description, price, discountPercentage, thumbnail} =
+    product;
 
   return {
+    id,
     title,
     description,
     price,

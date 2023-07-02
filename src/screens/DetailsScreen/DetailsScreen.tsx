@@ -5,9 +5,10 @@ import {DetailsScreenProps, IDetailsScreen} from './DetailsScreen.types';
 import {useProduct} from '../../models/hooks/useProduct';
 import {useProductDetails} from './hooks/useProductDetails';
 import {PricesBlock} from './PriceBlock/PricesBlock';
+import {RelatedProductsList} from './RelatedProducts/RelatedProductsList';
 
 const DetailsScreenSafe = ({product}: IDetailsScreen) => {
-  const {title, description, price, discountPercentage, thumbnailURL} =
+  const {id, title, description, price, discountPercentage, thumbnailURL} =
     useProductDetails(product);
 
   return (
@@ -25,6 +26,8 @@ const DetailsScreenSafe = ({product}: IDetailsScreen) => {
         price={price}
         discountPercentage={discountPercentage}
       />
+
+      <RelatedProductsList style={styles.relatedProducts} productID={id} />
     </View>
   );
 };

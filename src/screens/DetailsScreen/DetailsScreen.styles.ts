@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
   prices: {
     marginTop: 24,
   },
+  relatedProducts: {
+    maxHeight: 156,
+    marginTop: 32,
+  },
 });
 
 export {styles};
