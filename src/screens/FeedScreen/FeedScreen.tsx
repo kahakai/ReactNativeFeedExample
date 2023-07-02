@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, ListRenderItem} from 'react-native';
+import {FlatList, ListRenderItem, Text, View} from 'react-native';
 import {styles} from './FeedScreen.styles';
 import {Product} from '../../models/Product';
 import {FeedItem} from './FeedItem/FeedItem';
@@ -15,7 +15,11 @@ const renderItemSeparator = (): React.ReactElement => {
 };
 
 const FeedScreen = () => {
-  const products = useProducts();
+  const {products, isLoading, errorMessage} = useProducts();
+
+  if (!products) {
+    return null;
+  }
 
   return (
     <FlatList
