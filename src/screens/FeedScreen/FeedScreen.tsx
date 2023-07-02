@@ -1,10 +1,13 @@
 import React from 'react';
-import {FlatList, ListRenderItem, Text, View} from 'react-native';
-import {styles} from './FeedScreen.styles';
+import {FlatList, ListRenderItem} from 'react-native';
+
 import {Product} from '../../models/Product';
+import {useProducts} from '../../models/hooks/useProducts';
+import {styles} from './FeedScreen.styles';
 import {FeedItem} from './FeedItem/FeedItem';
 import {Separator} from './Separator/Separator';
-import {useProducts} from '../../models/hooks/useProducts';
+import {LoadingView} from './LoadingView/LoadingView';
+import {ErrorView} from './ErrorView/ErrorView';
 
 const renderItem: ListRenderItem<Product> = ({item}) => {
   return <FeedItem product={item} />;
@@ -15,10 +18,14 @@ const renderItemSeparator = (): React.ReactElement => {
 };
 
 const FeedScreen = () => {
-  const {products, isLoading, errorMessage} = useProducts();
+  const {products, isLoading, error} = useProducts();
 
-  if (!products) {
-    return null;
+  if (isLoading) {
+    return <LoadingView />;
+  }
+
+  if (error) {
+    return <ErrorView />;
   }
 
   return (

@@ -1,15 +1,15 @@
 import {useState, useEffect} from 'react';
 
 interface FetchState<T extends object> {
-  data: T | null;
+  data?: T;
   isLoading: boolean;
-  error: Error | null;
+  error?: Error;
 }
 
 const useFetch = <T extends object>(url: string): FetchState<T> => {
-  const [data, setData] = useState<T | null>(null);
+  const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     const fetchData = async () => {

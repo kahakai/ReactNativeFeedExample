@@ -5,7 +5,7 @@ import {Product} from '../Product';
 interface ProductsState {
   products?: Product[];
   isLoading: boolean;
-  errorMessage?: string;
+  error?: Error;
 }
 
 const useProducts = (): ProductsState => {
@@ -16,7 +16,7 @@ const useProducts = (): ProductsState => {
   return {
     products: data?.products,
     isLoading,
-    errorMessage: error?.message,
+    error,
   };
 };
 
