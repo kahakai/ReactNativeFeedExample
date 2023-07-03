@@ -2,13 +2,16 @@ import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 
+import {RealmProvider} from './src/domain/context';
 import {RootStack} from './src/navigators/RootStackNavigator/RootStackNavigator';
 
 function App(): JSX.Element {
   return (
-    <NavigationContainer>
-      <RootStack />
-    </NavigationContainer>
+    <RealmProvider>
+      <NavigationContainer>
+        <RootStack />
+      </NavigationContainer>
+    </RealmProvider>
   );
 }
 
