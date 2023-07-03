@@ -18,13 +18,20 @@ const renderItemSeparator = (): React.ReactElement => {
 };
 
 const FeedScreen = () => {
-  const {products, isLoading, error, fetchMore} = useProducts();
+  const {
+    products,
+    isLoadingFirstTime,
+    isLoading,
+    isErrorFirstTime,
+    error,
+    queryMore,
+  } = useProducts();
 
-  if (isLoading && !products) {
+  if (isLoadingFirstTime) {
     return <LoadingView />;
   }
 
-  if (error && products) {
+  if (isErrorFirstTime) {
     return <ErrorView />;
   }
 
@@ -36,7 +43,7 @@ const FeedScreen = () => {
       renderItem={renderItem}
       ItemSeparatorComponent={renderItemSeparator}
       onEndReachedThreshold={0.8}
-      onEndReached={fetchMore}
+      onEndReached={queryMore}
     />
   );
 };

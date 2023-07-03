@@ -2,15 +2,28 @@ import {useCallback, useEffect, useMemo, useState} from 'react';
 import {Product} from '../../../models/Product';
 import {useFetch} from '../../../network/hooks/useFetch';
 import {GetProductsResponse} from '../../../network/models/products/Products.types';
+import {useQuery, useRealm} from '../../../domain/context';
+import {Product as DomainProduct} from '../../../domain/models/Product';
+import {Results} from 'realm';
 
 interface ProductsState {
-  products?: Product[];
+  products: Results<Product>;
+  isLoadingFirstTime: boolean;
   isLoading: boolean;
+  isErrorFirstTime: boolean;
   error?: Error;
-  fetchMore: () => void;
+  queryMore: () => void;
 }
 
 const useProducts = (): ProductsState => {
+  const realm = useRealm();
+
+  const domainProducts = useQuery(DomainProduct);
+
+  const isDomainProductsEmpty = useMemo(() => {
+    return domainProducts.length === 0;
+  }, [domainProducts.length]);
+
   const [batch, setBatch] = useState<number>();
 
   const url = useMemo(() => {
@@ -23,7 +36,35 @@ const useProducts = (): ProductsState => {
 
   const {data, isLoading, error} = useFetch<GetProductsResponse>(url);
 
-  const [products, setProducts] = useState<Product[]>();
+  const isLoadingFirstTime = useMemo(() => {
+    return isLoading && isDomainProductsEmpty;
+  }, [isDomainProductsEmpty, isLoading]);
+
+  const isErrorFirstTime = useMemo(() => {
+    return error != null && isDomainProductsEmpty;
+  }, [error, isDomainProductsEmpty]);
+
+  const queryMore = useCallback(() => {
+    if (isDomainProductsEmpty) {
+      setBatch(0);
+      return;
+    }
+
+    setBatch(domainProducts.length + 30);
+  }, [domainProducts.length, isDomainProductsEmpty]);
+
+  const addProducts = useCallback(
+    (products: Product[]) => {
+      realm.write(() => {
+        products.forEach(product => {
+          realm.create('Product', {
+            ...product,
+          });
+        });
+      });
+    },
+    [realm],
+  );
 
   useEffect(() => {
     const newProducts = data?.products;
@@ -32,31 +73,16 @@ const useProducts = (): ProductsState => {
       return;
     }
 
-    setProducts(prevProducts => {
-      if (prevProducts == null) {
-        return newProducts;
-      }
-
-      return prevProducts.concat(newProducts);
-    });
-  }, [data?.products]);
-
-  const fetchMore = useCallback(() => {
-    setBatch(prevBatch => {
-      if (prevBatch == null) {
-        return 0;
-      }
-
-      const newBatch = 30;
-      return prevBatch + newBatch;
-    });
-  }, []);
+    addProducts(newProducts);
+  }, [addProducts, data?.products]);
 
   return {
-    products,
+    products: domainProducts,
+    isLoadingFirstTime,
     isLoading,
+    isErrorFirstTime,
     error,
-    fetchMore,
+    queryMore,
   };
 };
 
