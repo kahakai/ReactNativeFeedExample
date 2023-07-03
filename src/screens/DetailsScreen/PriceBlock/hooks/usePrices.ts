@@ -14,7 +14,7 @@ const usePrices = (finalPrice: number, discountPercentage: number): Prices => {
   const fullPrice = Math.floor(fullValue(finalPrice, discountPercentage));
   const fullPriceString = `$${fullPrice}`;
 
-  const discountString = `${discountPercentage}%`;
+  const discountString = `${discountPercentage.toFixed(2)}%`;
 
   const finalPriceString = `$${finalPrice}`;
 

@@ -1,32 +1,30 @@
-import {Product} from '../../../../models/Product';
-import {useProductsStub} from '../../../../models/hooks/useProductsStub';
-import {removeElementAt, shuffle} from '../../../../utils/array';
-import {random} from '../../../../utils/random';
+import {useObject, useQuery} from '../../../../domain/context';
+import {Product} from '../../../../domain/models/Product';
+import {random, randomCount} from '../../../../utils/random';
 
-const getSomeShuffledProducts = (products: Product[]): Product[] => {
-  return shuffle(products).slice(0, random(5, 10));
+const getSomeRandomProducts = (products: Realm.Results<Product>): Product[] => {
+  const count = random(5, 10);
+  const indexes = randomCount(0, products.length, count);
+
+  return indexes.map(index => products[index]);
 };
 
 const useRelatedProducts = (productID: number): Product[] => {
-  const allProducts = useProductsStub();
+  const products = useQuery(Product);
 
-  const productIndex = allProducts.findIndex(product => {
-    return product.id === productID;
-  });
+  const product = useObject(Product, productID);
 
-  if (productIndex === -1) {
-    return getSomeShuffledProducts(allProducts);
+  if (product == null) {
+    return getSomeRandomProducts(products);
   }
 
-  const productCategory = allProducts[productIndex].category;
+  const productCategory = product.category;
+  const productsSameCategory = products.filtered(
+    'category == $0',
+    productCategory,
+  );
 
-  const remainingProducts = removeElementAt(allProducts, productIndex);
-
-  const remainingProductsSameCategory = remainingProducts.filter(product => {
-    return product.category === productCategory;
-  });
-
-  return getSomeShuffledProducts(remainingProductsSameCategory);
+  return getSomeRandomProducts(productsSameCategory);
 };
 
 export {useRelatedProducts};
