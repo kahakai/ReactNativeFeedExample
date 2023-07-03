@@ -1,8 +1,10 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native';
+
+import {useObject} from '../../domain/context';
+import {Product} from '../../domain/models/Product';
 import {styles} from './DetailsScreen.styles';
 import {DetailsScreenProps, IDetailsScreen} from './DetailsScreen.types';
-import {useProduct} from '../../models/hooks/useProduct';
 import {useProductDetails} from './hooks/useProductDetails';
 import {PricesBlock} from './PriceBlock/PricesBlock';
 import {RelatedProductsList} from './RelatedProducts/RelatedProductsList';
@@ -34,10 +36,10 @@ const DetailsScreenSafe = ({product}: IDetailsScreen) => {
 
 const DetailsScreen = ({route}: DetailsScreenProps) => {
   const {
-    params: {id},
+    params: {productID},
   } = route;
 
-  const product = useProduct(id);
+  const product = useObject(Product, productID);
 
   if (!product) {
     return null;

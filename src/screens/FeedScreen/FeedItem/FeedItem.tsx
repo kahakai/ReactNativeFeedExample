@@ -13,7 +13,7 @@ const FeedItem = ({product}: IFeedItem) => {
 
   const onPress = useCallback(() => {
     navigation.navigate('Details', {
-      id: id,
+      productID: id,
     });
   }, [id, navigation]);
 

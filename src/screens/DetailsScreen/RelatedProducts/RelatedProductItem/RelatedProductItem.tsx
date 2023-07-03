@@ -16,7 +16,7 @@ const RelatedProductItem = ({product}: IRelatedProductItem) => {
 
   const onPress = useCallback(() => {
     navigation.push('Details', {
-      id: id,
+      productID: id,
     });
   }, [id, navigation]);
 

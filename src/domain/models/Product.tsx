@@ -28,6 +28,7 @@ class Product extends Realm.Object<Product> {
       thumbnail: 'string',
       images: 'string[]',
     },
+    primaryKey: 'id',
   };
 }
 
