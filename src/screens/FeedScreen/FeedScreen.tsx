@@ -7,6 +7,7 @@ import {styles} from './FeedScreen.styles';
 import {FeedItem} from './FeedItem/FeedItem';
 import {Separator} from './Separator/Separator';
 import {LoadingView} from './LoadingView/LoadingView';
+import {LoadingFooterView} from './LoadingFooterView/LoadingFooterView';
 import {ErrorView} from './ErrorView/ErrorView';
 
 const renderItem: ListRenderItem<Product> = ({item}) => {
@@ -15,6 +16,14 @@ const renderItem: ListRenderItem<Product> = ({item}) => {
 
 const renderItemSeparator = (): React.ReactElement => {
   return <Separator value={36} />;
+};
+
+const renderFooter = (isLoading: boolean): React.ReactElement | null => {
+  if (!isLoading) {
+    return null;
+  }
+
+  return <LoadingFooterView />;
 };
 
 const FeedScreen = () => {
@@ -32,7 +41,7 @@ const FeedScreen = () => {
   }
 
   if (isErrorFirstTime) {
-    return <ErrorView />;
+    return <ErrorView message={error?.message} />;
   }
 
   return (
@@ -42,6 +51,7 @@ const FeedScreen = () => {
       data={products}
       renderItem={renderItem}
       ItemSeparatorComponent={renderItemSeparator}
+      ListFooterComponent={() => renderFooter(isLoading)}
       onEndReachedThreshold={0.8}
       onEndReached={queryMore}
     />
